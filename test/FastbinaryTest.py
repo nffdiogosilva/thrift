@@ -36,7 +36,7 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
 import timeit
-from cStringIO import StringIO
+from io import StringIO
 from copy import deepcopy
 from pprint import pprint
 
@@ -94,14 +94,14 @@ rs = RandomStuff()
 rs.a = 1
 rs.b = 2
 rs.c = 3
-rs.myintlist = range(20)
+rs.myintlist = list(range(20))
 rs.maps = {1:Wrapper({"foo":Empty()}),2:Wrapper({"foo":Empty()})}
-rs.bigint = 124523452435L
+rs.bigint = 124523452435
 rs.triple = 3.14
 
 # make sure this splits two buffers in a buffered protocol
 rshuge = RandomStuff()
-rshuge.myintlist=range(10000)
+rshuge.myintlist=list(range(10000))
 
 my_zero = Srv.Janky_result({"arg":5})
 
@@ -116,7 +116,7 @@ def checkWrite(o):
   ORIG = trans_slow.getvalue()
   MINE = trans_fast.getvalue()
   if ORIG != MINE:
-    print "mine: %s\norig: %s" % (repr(MINE), repr(ORIG))
+    print("mine: %s\norig: %s" % (repr(MINE), repr(ORIG)))
 
 def checkRead(o):
   prot = TBinaryProtocol.TBinaryProtocol(TTransport.TMemoryBuffer())
@@ -129,9 +129,9 @@ def checkRead(o):
   c = o.__class__()
   c.read(prot)
   if c != o:
-    print "copy: "
+    print("copy: ")
     pprint(eval(repr(c)))
-    print "orig: "
+    print("orig: ")
     pprint(eval(repr(o)))
 
   prot = TBinaryProtocol.TBinaryProtocolAccelerated(
@@ -140,9 +140,9 @@ def checkRead(o):
   c = o.__class__()
   c.read(prot)
   if c != o:
-    print "copy: "
+    print("copy: ")
     pprint(eval(repr(c)))
-    print "orig: "
+    print("orig: ")
     pprint(eval(repr(o)))
 
 
@@ -171,7 +171,7 @@ def doTest():
   ORIG = trans_slow.getvalue()
   MINE = trans_fast.getvalue()
   if ORIG == MINE:
-    print "That shouldn't happen."
+    print("That shouldn't happen.")
 
 
   prot = TBinaryProtocol.TBinaryProtocolAccelerated(TTransport.TMemoryBuffer())
@@ -182,9 +182,9 @@ def doTest():
   c = o.__class__()
   c.read(prot)
   if c != o:
-    print "copy: "
+    print("copy: ")
     pprint(eval(repr(c)))
-    print "orig: "
+    print("orig: ")
     pprint(eval(repr(o)))
 
 
@@ -203,17 +203,17 @@ prot = TBinaryProtocol.TBinaryProtocol%s(trans)
   setup_fast = setup % "Accelerated"
   setup_slow = setup % ""
 
-  print "Starting Benchmarks"
+  print("Starting Benchmarks")
 
-  print "HolyMoley Standard = %f" % \
-      timeit.Timer('hm.write(prot)', setup_slow).timeit(number=iters)
-  print "HolyMoley Acceler. = %f" % \
-      timeit.Timer('hm.write(prot)', setup_fast).timeit(number=iters)
+  print("HolyMoley Standard = %f" % \
+      timeit.Timer('hm.write(prot)', setup_slow).timeit(number=iters))
+  print("HolyMoley Acceler. = %f" % \
+      timeit.Timer('hm.write(prot)', setup_fast).timeit(number=iters))
 
-  print "FastStruct Standard = %f" % \
-      timeit.Timer('rs.write(prot)', setup_slow).timeit(number=iters)
-  print "FastStruct Acceler. = %f" % \
-      timeit.Timer('rs.write(prot)', setup_fast).timeit(number=iters)
+  print("FastStruct Standard = %f" % \
+      timeit.Timer('rs.write(prot)', setup_slow).timeit(number=iters))
+  print("FastStruct Acceler. = %f" % \
+      timeit.Timer('rs.write(prot)', setup_fast).timeit(number=iters))
 
 
 

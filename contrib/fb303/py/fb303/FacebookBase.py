@@ -47,7 +47,7 @@ class FacebookBase(FacebookService.Iface):
     self.counters[key] = 0
 
   def getCounter(self, key):
-    if self.counters.has_key(key):
+    if key in self.counters:
       return self.counters[key]
     return 0
 

@@ -101,10 +101,10 @@ try:
     run_setup(True)
 except BuildFailed:
     print()
-    print('*' * 80)
+    print(('*' * 80))
     print("An error occurred while trying to compile with the C extension enabled")
     print("Attempting to build without the extension now")
-    print('*' * 80)
+    print(('*' * 80))
     print()
 
     run_setup(False)

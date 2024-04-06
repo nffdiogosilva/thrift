@@ -67,7 +67,7 @@ def collect_testlibs(config, server_match, client_match):
           if not platforms or platform.system() in platforms:
             yield merge_dict(base, conf)
 
-  libs, svs, cls = zip(*expand_libs(config))
+  libs, svs, cls = list(zip(*expand_libs(config)))
   servers = list(yield_testlibs(libs, svs, server_match))
   clients = list(yield_testlibs(libs, cls, client_match))
   return servers, clients

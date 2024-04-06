@@ -197,73 +197,73 @@ class AbstractTest(unittest.TestCase):
 
   def testForwards(self):
     obj = self._deserialize(VersioningTestV2, self._serialize(self.v1obj))
-    self.assertEquals(obj.begin_in_both, self.v1obj.begin_in_both)
-    self.assertEquals(obj.end_in_both, self.v1obj.end_in_both)
+    self.assertEqual(obj.begin_in_both, self.v1obj.begin_in_both)
+    self.assertEqual(obj.end_in_both, self.v1obj.end_in_both)
 
   def testBackwards(self):
     obj = self._deserialize(VersioningTestV1, self._serialize(self.v2obj))
-    self.assertEquals(obj.begin_in_both, self.v2obj.begin_in_both)
-    self.assertEquals(obj.end_in_both, self.v2obj.end_in_both)
+    self.assertEqual(obj.begin_in_both, self.v2obj.begin_in_both)
+    self.assertEqual(obj.end_in_both, self.v2obj.end_in_both)
 
   def testSerializeV1(self):
     obj = self._deserialize(VersioningTestV1, self._serialize(self.v1obj))
-    self.assertEquals(obj, self.v1obj)
+    self.assertEqual(obj, self.v1obj)
 
   def testSerializeV2(self):
     obj = self._deserialize(VersioningTestV2, self._serialize(self.v2obj))
-    self.assertEquals(obj, self.v2obj)
+    self.assertEqual(obj, self.v2obj)
 
   def testBools(self):
-    self.assertNotEquals(self.bools, self.bools_flipped)
-    self.assertNotEquals(self.bools, self.v1obj)
+    self.assertNotEqual(self.bools, self.bools_flipped)
+    self.assertNotEqual(self.bools, self.v1obj)
     obj = self._deserialize(Bools, self._serialize(self.bools))
-    self.assertEquals(obj, self.bools)
+    self.assertEqual(obj, self.bools)
     obj = self._deserialize(Bools, self._serialize(self.bools_flipped))
-    self.assertEquals(obj, self.bools_flipped)
+    self.assertEqual(obj, self.bools_flipped)
     rep = repr(self.bools)
     self.assertTrue(len(rep) > 0)
 
   def testLargeDeltas(self):
     # test large field deltas (meaningful in CompactProto only)
     obj = self._deserialize(LargeDeltas, self._serialize(self.large_deltas))
-    self.assertEquals(obj, self.large_deltas)
+    self.assertEqual(obj, self.large_deltas)
     rep = repr(self.large_deltas)
     self.assertTrue(len(rep) > 0)
 
   def testNestedListsI32x2(self):
     obj = self._deserialize(NestedListsI32x2, self._serialize(self.nested_lists_i32x2))
-    self.assertEquals(obj, self.nested_lists_i32x2)
+    self.assertEqual(obj, self.nested_lists_i32x2)
     rep = repr(self.nested_lists_i32x2)
     self.assertTrue(len(rep) > 0)
 
   def testNestedListsI32x3(self):
     obj = self._deserialize(NestedListsI32x3, self._serialize(self.nested_lists_i32x3))
-    self.assertEquals(obj, self.nested_lists_i32x3)
+    self.assertEqual(obj, self.nested_lists_i32x3)
     rep = repr(self.nested_lists_i32x3)
     self.assertTrue(len(rep) > 0)
 
   def testNestedMixedx2(self):
     obj = self._deserialize(NestedMixedx2, self._serialize(self.nested_mixedx2))
-    self.assertEquals(obj, self.nested_mixedx2)
+    self.assertEqual(obj, self.nested_mixedx2)
     rep = repr(self.nested_mixedx2)
     self.assertTrue(len(rep) > 0)
 
   def testNestedListsBonk(self):
     obj = self._deserialize(NestedListsBonk, self._serialize(self.nested_lists_bonk))
-    self.assertEquals(obj, self.nested_lists_bonk)
+    self.assertEqual(obj, self.nested_lists_bonk)
     rep = repr(self.nested_lists_bonk)
     self.assertTrue(len(rep) > 0)
 
   def testListBonks(self):
     obj = self._deserialize(ListBonks, self._serialize(self.list_bonks))
-    self.assertEquals(obj, self.list_bonks)
+    self.assertEqual(obj, self.list_bonks)
     rep = repr(self.list_bonks)
     self.assertTrue(len(rep) > 0)
 
   def testCompactStruct(self):
     # test large field deltas (meaningful in CompactProto only)
     obj = self._deserialize(CompactProtoTestStruct, self._serialize(self.compact_struct))
-    self.assertEquals(obj, self.compact_struct)
+    self.assertEqual(obj, self.compact_struct)
     rep = repr(self.compact_struct)
     self.assertTrue(len(rep) > 0)
 
@@ -313,7 +313,7 @@ class AcceleratedFramedTest(unittest.TestCase):
     for part in parts:
       framed_writer.write(part)
       framed_writer.flush()
-    self.assertEquals(len(framed_buffer.getvalue()), len(data) + 8)
+    self.assertEqual(len(framed_buffer.getvalue()), len(data) + 8)
 
     # Recreate framed_buffer so we can read from it.
     framed_buffer = TTransport.TMemoryBuffer(framed_buffer.getvalue())
@@ -331,28 +331,28 @@ class SerializersTest(unittest.TestCase):
 
     s1 = serialize(obj)
     for i in range(10):
-      self.assertEquals(s1, serialize(obj))
+      self.assertEqual(s1, serialize(obj))
       objcopy = Xtruct2()
       deserialize(objcopy, serialize(obj))
-      self.assertEquals(obj, objcopy)
+      self.assertEqual(obj, objcopy)
 
     obj = Xtruct(string_thing="bar")
     objcopy = Xtruct()
     deserialize(objcopy, serialize(obj))
-    self.assertEquals(obj, objcopy)
+    self.assertEqual(obj, objcopy)
 
     # test booleans
     obj = Bools(im_true=True, im_false=False)
     objcopy = Bools()
     deserialize(objcopy, serialize(obj))
-    self.assertEquals(obj, objcopy)
+    self.assertEqual(obj, objcopy)
     
     # test enums
-    for num, name in Numberz._VALUES_TO_NAMES.iteritems():
+    for num, name in Numberz._VALUES_TO_NAMES.items():
       obj = Bonk(message='enum Numberz value %d is string %s' % (num, name), type=num)
       objcopy = Bonk()
       deserialize(objcopy, serialize(obj))
-      self.assertEquals(obj, objcopy)
+      self.assertEqual(obj, objcopy)
   
 
 def suite():

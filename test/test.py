@@ -55,7 +55,7 @@ def run_tests(server_match, client_match, jobs, skip_known_failures):
   tests = list(crossrunner.collect_tests(j, server_match, client_match))
   if skip_known_failures:
     known = crossrunner.load_known_failures(TEST_DIR)
-    tests = list(filter(lambda t: crossrunner.test_name(**t) not in known, tests))
+    tests = list([t for t in tests if crossrunner.test_name(**t) not in known])
 
   dispatcher = crossrunner.TestDispatcher(TEST_DIR, jobs)
   logger.debug('Executing %d tests' % len(tests))

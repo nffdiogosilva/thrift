@@ -73,6 +73,6 @@ class TZmqMultiServer(object):
   def _serveActive(self, poll_info, timeout):
     (server_map, poller) = poll_info
     ready = dict(poller.poll())
-    for sock, state in ready.items():
+    for sock, state in list(ready.items()):
       assert (state & zmq.POLLIN) != 0
       server_map[sock].serveOne()

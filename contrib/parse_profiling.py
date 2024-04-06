@@ -122,8 +122,8 @@ def lookup_addresses(options):
     in the global list of AddressInfo objects.
     """
     global g_addrs_by_filename
-    for (file, addresses) in g_addrs_by_filename.items():
-        translate_file_addresses(file, addresses.values(), options)
+    for (file, addresses) in list(g_addrs_by_filename.items()):
+        translate_file_addresses(file, list(addresses.values()), options)
 
 
 class Entry(object):
@@ -296,7 +296,7 @@ def main(argv):
         in_file = open(argv[1], 'r')
     else:
         parser.print_usage(sys.stderr)
-        print >> sys.stderr, 'trailing arguments: %s' % (' '.join(args[1:],))
+        print('trailing arguments: %s' % (' '.join(args[1:],)), file=sys.stderr)
         return 1
 
     if options.cxxfilt:

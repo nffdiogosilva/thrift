@@ -20,13 +20,13 @@
 #
 
 import os
-import BaseHTTPServer
-import CGIHTTPServer
+import http.server
+import http.server
 
 # chdir(2) into the tutorial directory.
 os.chdir(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-class Handler(CGIHTTPServer.CGIHTTPRequestHandler):
+class Handler(http.server.CGIHTTPRequestHandler):
   cgi_directories  = ['/php']
 
-BaseHTTPServer.HTTPServer(('', 8080), Handler).serve_forever()
+http.server.HTTPServer(('', 8080), Handler).serve_forever()

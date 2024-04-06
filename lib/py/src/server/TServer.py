@@ -17,7 +17,7 @@
 # under the License.
 #
 
-import Queue
+import queue
 import os
 import sys
 import threading
@@ -139,7 +139,7 @@ class TThreadPoolServer(TServer):
 
   def __init__(self, *args, **kwargs):
     TServer.__init__(self, *args)
-    self.clients = Queue.Queue()
+    self.clients = queue.Queue()
     self.threads = 10
     self.daemon = kwargs.get("daemon", False)
 

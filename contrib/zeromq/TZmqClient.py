@@ -17,7 +17,7 @@
 # under the License.
 #
 import zmq
-from cStringIO import StringIO
+from io import StringIO
 from thrift.transport.TTransport import TTransportBase, CReadableTransport
 
 class TZmqClient(TTransportBase, CReadableTransport):
