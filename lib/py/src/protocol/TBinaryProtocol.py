@@ -120,7 +120,7 @@ class TBinaryProtocol(TProtocolBase):
 
   def writeString(self, str):
     self.writeI32(len(str))
-    self.trans.write(str)
+    self.trans.write(str.encode())
 
   def readMessageBegin(self):
     sz = self.readI32()
@@ -220,7 +220,7 @@ class TBinaryProtocol(TProtocolBase):
   def readString(self):
     len = self.readI32()
     str = self.trans.readAll(len)
-    return str
+    return str.decode()
 
 
 class TBinaryProtocolFactory:
